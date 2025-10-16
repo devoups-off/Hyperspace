@@ -1,0 +1,69 @@
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.space {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    perspective: 1000px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, #000 0%, #030617 100%);
+}
+
+.star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: blur(var(--blur));
+    transform-origin: center left; /* pivot à gauche pour que la traînée parte vers l’extérieur */
+    animation: fly var(--duration) linear infinite;
+    animation-delay: var(--delay);
+
+    /* Rotation selon la direction de déplacement */
+    transform: rotate(calc(atan2(var(--ty) - 0.5, var(--tx) - 0.5) * 1rad)) scaleX(0.2) scaleY(var(--scaleY));
+}
+
+
+@keyframes fly {
+    0% {
+        transform: translate3d(0, 0, 0) scaleX(0.2) scaleY(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(
+                calc((var(--tx) - 0.5) * 2000px),
+                calc((var(--ty) - 0.5) * 2000px),
+                800px
+        )
+        scaleX(0.2) scaleY(var(--scaleY));
+        opacity: 0;
+    }
+}
+
+.center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+    animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
